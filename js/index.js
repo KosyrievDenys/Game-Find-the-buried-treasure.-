@@ -2,9 +2,10 @@ function getRandomNumber(size) {
     return Math.floor(Math.random() * size);
 }
 
-let width = 400;
-let height = 400;
+let width = 500;
+let height = 500;
 let clicks = 0;
+let maxClicks = 20;
 
 let target = {
     x: getRandomNumber(width),
@@ -29,10 +30,17 @@ function getDistanceHint(distance) {
 
 $('#map').click(function (event) {
     clicks++;
+    maxClicks--;
+    if (clicks === 20) {
+        clicks = 0;
+        maxClicks = 20;
+        $('#distance').text(' ');
+        return alert('GAME OVER');
+    }
 
     let distance = getDistance(event, target);
     let distanceHint = getDistanceHint(distance);
-    $('#distance').text(distanceHint);
+    $('#distance').text(`${distanceHint}   ${maxClicks}`);
 
     if (distance < 8) {
         alert(`Found the treasure in ${clicks} clicks!`);
